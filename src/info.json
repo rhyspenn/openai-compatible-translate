@@ -1,6 +1,6 @@
 {
     "identifier": "zhipu-ai-translate",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "category": "translate",
     "name": "智谱AI翻译",
     "summary": "使用智谱AI大模型进行高质量文本翻译",
@@ -33,9 +33,24 @@
                 {
                     "title": "GLM-4-Flash (快速)",
                     "value": "glm-4-flash"
+                },
+                {
+                    "title": "自定义模型",
+                    "value": "custom"
                 }
             ],
             "defaultValue": "glm-4"
+        },
+        {
+            "identifier": "customModel",
+            "type": "text",
+            "title": "自定义模型名称",
+            "desc": "当选择自定义模型时，请输入具体的模型名称（如：glm-4-plus、chatglm3-6b等）",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "请输入模型名称，如：glm-4-plus"
+            }
         }
     ]
 }

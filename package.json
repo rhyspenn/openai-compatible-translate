@@ -1,0 +1,32 @@
+{
+    "name": "bob-zhipu-translate",
+    "version": "1.1.0",
+    "description": "智谱AI翻译插件 - 基于智谱AI大模型的Bob翻译插件",
+    "main": "src/main.js",
+    "scripts": {
+        "build": "./build.sh",
+        "release": "./release.sh",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rhys/bob-zhipu-translate.git"
+    },
+    "keywords": [
+        "bob",
+        "translate",
+        "zhipu",
+        "ai",
+        "plugin",
+        "glm-4"
+    ],
+    "author": "Rhys",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/rhys/bob-zhipu-translate/issues"
+    },
+    "homepage": "https://github.com/rhys/bob-zhipu-translate#readme",
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}

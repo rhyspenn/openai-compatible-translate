@@ -53,7 +53,23 @@ function translate(query, completion) {
     }
 
     // 获取模型配置
-    const model = $option.model || 'glm-4';
+    let model = $option.model || 'glm-4';
+    
+    // 如果选择了自定义模型，使用用户输入的模型名称
+    if (model === 'custom') {
+        const customModel = $option.customModel;
+        if (!customModel || customModel.trim() === '') {
+            completion({
+                error: {
+                    type: 'param',
+                    message: '请填写自定义模型名称',
+                    addition: '选择自定义模型时，请在插件设置中填入具体的模型名称'
+                }
+            });
+            return;
+        }
+        model = customModel.trim();
+    }
 
     // 转换语言代码
     const fromLang = langMap.get(from);
@@ -148,6 +164,9 @@ function handleApiResponse(resp, originalText, from, to, completion) {
         } else if (data.error.code === 'insufficient_quota') {
             errorMessage = 'API配额不足';
             errorAddition = '请检查您的账户余额';
+        } else if (data.error.code === 'model_not_found' || data.error.message.includes('model')) {
+            errorMessage = '模型不存在或无权限';
+            errorAddition = '请检查模型名称是否正确，或该模型是否在您的账户权限范围内';
         }
 
         completion({

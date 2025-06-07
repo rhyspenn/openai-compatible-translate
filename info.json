@@ -1,0 +1,41 @@
+{
+    "identifier": "zhipu-ai-translate",
+    "version": "1.0.0",
+    "category": "translate",
+    "name": "智谱AI翻译",
+    "summary": "使用智谱AI大模型进行高质量文本翻译",
+    "icon": "",
+    "author": "Rhys",
+    "homepage": "https://github.com/your-username/bob-zhipu-translate",
+    "appcast": "",
+    "minBobVersion": "0.5.0",
+    "options": [
+        {
+            "identifier": "apiKey",
+            "type": "text",
+            "title": "API Key",
+            "desc": "请输入智谱AI的API密钥，可在 https://open.bigmodel.cn/ 获取",
+            "textConfig": {
+                "type": "secure",
+                "height": 20
+            }
+        },
+        {
+            "identifier": "model",
+            "type": "menu",
+            "title": "模型选择",
+            "desc": "选择使用的智谱AI模型",
+            "menuValues": [
+                {
+                    "title": "GLM-4 (推荐)",
+                    "value": "glm-4"
+                },
+                {
+                    "title": "GLM-4-Flash (快速)",
+                    "value": "glm-4-flash"
+                }
+            ],
+            "defaultValue": "glm-4"
+        }
+    ]
+}

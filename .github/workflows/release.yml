@@ -1,0 +1,67 @@
+name: Build and Release Bob Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送 v* 标签时触发
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get version from info.json
+      id: get_version
+      run: |
+        VERSION=$(grep '"version"' info.json | sed 's/.*"version": "\(.*\)".*/\1/')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+    
+    - name: Build plugin
+      run: |
+        # 创建插件包
+        zip -r zhipu-ai-translate.bobplugin main.js info.json
+        
+        # 验证插件包
+        echo "Plugin contents:"
+        unzip -l zhipu-ai-translate.bobplugin
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        body: |
+          ## 智谱AI翻译插件 ${{ steps.get_version.outputs.version }}
+          
+          ### 📦 安装方法
+          1. 下载 `zhipu-ai-translate.bobplugin` 文件
+          2. 双击安装或在 Bob 中手动导入
+          3. 在插件设置中配置智谱AI API Key
+          
+          ### 🔧 配置说明
+          - 获取 API Key: https://open.bigmodel.cn/
+          - 支持 GLM-4 和 GLM-4-Flash 模型
+          - 支持 15 种语言互译
+          
+          ### 📝 更新内容
+          详见提交记录
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./zhipu-ai-translate.bobplugin
+        asset_name: zhipu-ai-translate.bobplugin
+        asset_content_type: application/zip

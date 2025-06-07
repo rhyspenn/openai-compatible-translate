@@ -195,9 +195,6 @@ function handleApiResponse(resp, originalText, from, to, completion) {
     if (data.choices && data.choices.length > 0) {
         let translatedText = data.choices[0].message.content.trim();
 
-        // 清理可能的思考过程或解释文本
-        translatedText = cleanTranslationResult(translatedText);
-
         if (translatedText) {
             completion({
                 result: {
@@ -225,40 +222,4 @@ function handleApiResponse(resp, originalText, from, to, completion) {
             }
         });
     }
-}
-
-function cleanTranslationResult(text) {
-    // 移除常见的思考过程标识符和解释文本
-    const patterns = [
-        /^.*?翻译为?\s*[:：]\s*/i,           // "翻译为:" 或 "翻译:"
-        /^.*?结果为?\s*[:：]\s*/i,           // "结果为:" 或 "结果:"
-        /^.*?是\s*[:：]\s*/i,                // "是:"
-        /^.*?答案为?\s*[:：]\s*/i,           // "答案为:" 或 "答案:"
-        /^思考\s*[:：].*$/gm,                // 整行的思考过程
-        /^分析\s*[:：].*$/gm,                // 整行的分析过程
-        /^解释\s*[:：].*$/gm,                // 整行的解释过程
-        /^根据.*?翻译.*?$/gm,                // "根据...翻译..."
-        /^首先.*?然后.*?$/gm,                // "首先...然后..."
-        /^这.*?是.*?$/gm,                    // "这...是..."
-        /^\d+[\.\)]\s*/gm,                   // 数字编号 "1. " 或 "1)"
-        /^[-\*]\s*/gm                        // 列表标记 "- " 或 "* "
-    ];
-
-    let cleaned = text;
-
-    // 应用清理规则
-    for (const pattern of patterns) {
-        cleaned = cleaned.replace(pattern, '');
-    }
-
-    // 清理多余的换行和空格
-    cleaned = cleaned.replace(/^\s*\n+/gm, '').trim();
-
-    // 如果清理后为空，返回原文本的第一行（可能是直接翻译结果）
-    if (!cleaned) {
-        const lines = text.split('\n').filter(line => line.trim());
-        cleaned = lines.length > 0 ? lines[0].trim() : text.trim();
-    }
-
-    return cleaned;
 }

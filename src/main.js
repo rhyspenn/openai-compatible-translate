@@ -84,7 +84,7 @@ function translate(query, completion) {
         messages: [
             {
                 role: "system",
-                content: "你是专业翻译工具。规则：1)只输出翻译结果，禁止解释说明 2)禁止思考过程 3)直接翻译，保持原文格式"
+                content: "你是专业翻译工具。规则：1)只输出翻译结果，禁止解释说明 2)禁止思考过程 3)直接翻译，保持原文格式 4)智能翻译时自动选择最合适的目标语言"
             },
             {
                 role: "user",
@@ -133,6 +133,15 @@ function buildTranslatePrompt(text, from, to, fromLang, toLang) {
 
     const fromName = languageNames[fromLang] || '原语言';
     const toName = languageNames[toLang] || '目标语言';
+
+    // 处理特殊情况：目标语言为自动检测时
+    if (to === 'auto') {
+        if (from === 'auto') {
+            return `智能翻译:\n${text}`;
+        } else {
+            return `从${fromName}智能翻译:\n${text}`;
+        }
+    }
 
     // 使用更直接简洁的提示词
     if (from === 'auto') {

@@ -1,6 +1,6 @@
 {
     "identifier": "zhipu-ai-translate",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "category": "translate",
     "name": "智谱AI翻译",
     "summary": "使用智谱AI大模型进行高质量文本翻译",

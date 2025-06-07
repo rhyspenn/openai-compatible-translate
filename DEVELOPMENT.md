@@ -27,8 +27,18 @@ open zhipu-ai-translate.bobplugin
 ## 📁 关键文件说明
 
 - `src/main.js` - 插件核心逻辑
-- `src/info.json` - 插件配置信息
+- `src/info.json` - 插件配置信息（包含模型选择和自定义模型配置）
 - `build.sh` - 本地构建脚本
+- `release.sh` - 版本发布脚本
+- `TESTING.md` - 功能测试指南
+- `.github/workflows/release.yml` - 自动构建配置
+
+## 🆕 最新功能 (v1.1.0)
+
+### 自定义模型支持
+- 用户可选择预设模型（GLM-4、GLM-4-Flash）
+- 支持自定义模型名称输入
+- 完善的错误处理和验证
 - `release.sh` - 版本发布脚本
 - `.github/workflows/release.yml` - 自动构建配置
 

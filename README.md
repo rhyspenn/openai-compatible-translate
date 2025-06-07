@@ -83,6 +83,41 @@ A: 请检查智谱AI账户余额，确保有足够的调用额度
 ### Q: 翻译速度较慢
 A: 可以尝试切换到GLM-4-Flash模型，响应速度更快
 
+## 开发说明
+
+### 📁 项目结构
+
+```
+bob-translate-plugin/
+├── src/                    # 源代码目录
+│   ├── main.js            # 插件主逻辑
+│   └── info.json          # 插件配置信息
+├── .github/
+│   └── workflows/
+│       └── release.yml    # GitHub Actions 自动构建
+├── build.sh               # 本地构建脚本
+├── release.sh             # 发布脚本
+├── README.md              # 说明文档
+└── LICENSE                # 开源许可证
+```
+
+### 🛠️ 本地开发
+
+```bash
+# 本地构建插件包
+./build.sh
+
+# 发布新版本（自动更新版本号并推送）
+./release.sh
+```
+
+### 🚀 自动化构建
+
+项目配置了 GitHub Actions，当推送 `v*` 标签时会自动：
+1. 从 `src/` 目录构建插件包
+2. 创建 GitHub Release
+3. 上传 `.bobplugin` 文件
+
 ## 版本历史
 
 - **v1.0.0** - 初始版本

@@ -14,6 +14,11 @@ Thumbs.db
 # 临时文件
 *.tmp
 *.temp
+*.bak
 
-# 构建产物（可选，如果想要版本控制构建产物可以注释掉）
-# *.bobplugin
+# 构建产物（本地构建的插件包，发布时由 CI 自动生成）
+*.bobplugin
+
+# Node.js（如果将来需要）
+node_modules/
+npm-debug.log*

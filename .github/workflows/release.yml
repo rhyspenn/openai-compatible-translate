@@ -17,14 +17,16 @@ jobs:
     - name: Get version from info.json
       id: get_version
       run: |
-        VERSION=$(grep '"version"' info.json | sed 's/.*"version": "\(.*\)".*/\1/')
+        VERSION=$(grep '"version"' src/info.json | sed 's/.*"version": "\(.*\)".*/\1/')
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
     
     - name: Build plugin
       run: |
-        # 创建插件包
-        zip -r zhipu-ai-translate.bobplugin main.js info.json
+        # 创建插件包（从 src 目录）
+        cd src
+        zip -r ../zhipu-ai-translate.bobplugin main.js info.json
+        cd ..
         
         # 验证插件包
         echo "Plugin contents:"

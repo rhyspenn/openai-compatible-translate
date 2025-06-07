@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/rhys/bob-zhipu-translate.git"
+        "url": "git+https://github.com/rhyspenn/zhipu-ai-translate.git"
     },
     "keywords": [
         "bob",
@@ -23,9 +23,9 @@
     "author": "Rhys",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/rhys/bob-zhipu-translate/issues"
+        "url": "https://github.com/rhyspenn/zhipu-ai-translate/issues"
     },
-    "homepage": "https://github.com/rhys/bob-zhipu-translate#readme",
+    "homepage": "https://github.com/rhyspenn/zhipu-ai-translate#readme",
     "engines": {
         "node": ">=14.0.0"
     }

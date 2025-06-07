@@ -1,12 +1,10 @@
 # 智谱AI翻译插件
 
-[![GitHub release](https://img.shields.io/github/v/release/rhys/bob-zhipu-translate)](https://github.com/rhys/bob-zhipu-translate/releases)
-[![GitHub downloads](https://img.shields.io/github/downloads/rhys/bob-zhipu-translate/total)](https://github.com/rhys/bob-zhipu-translate/releases)
-[![License](https://img.shields.io/github/license/rhys/bob-zhipu-translate)](LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/rhyspenn/zhipu-ai-translate)](https://github.com/rhyspenn/zhipu-ai-translate/releases)
+[![GitHub downloads](https://img.shields.io/github/downloads/rhyspenn/zhipu-ai-translate/total)](https://github.com/rhyspenn/zhipu-ai-translate/releases)
+[![License](https://img.shields.io/github/license/rhyspenn/zhipu-ai-translate)](LICENSE)
 
 这是一个基于智谱AI大模型的Bob翻译插件，提供高质量的文本翻译服务。
-
-> **注意**: 请将上面的 `rhys/bob-zhipu-translate` 替换为您实际的 GitHub 仓库地址
 
 ## 功能特点
 
@@ -41,7 +39,7 @@
 
 ### 🔥 快速安装
 
-1. 前往 [Releases 页面](https://github.com/rhys/bob-zhipu-translate/releases) 下载最新版本
+1. 前往 [Releases 页面](https://github.com/rhyspenn/zhipu-ai-translate/releases) 下载最新版本
 2. 下载 `zhipu-ai-translate.bobplugin` 文件
 3. 双击文件自动安装到 Bob
 

@@ -54,7 +54,7 @@ function translate(query, completion) {
 
     // 获取模型配置
     let model = $option.model || 'glm-4';
-    
+
     // 如果选择了自定义模型，使用用户输入的模型名称
     if (model === 'custom') {
         const customModel = $option.customModel;
@@ -84,7 +84,7 @@ function translate(query, completion) {
         messages: [
             {
                 role: "system",
-                content: "你是一个专业的翻译助手，请提供准确、自然的翻译结果。只返回翻译结果，不要添加任何解释或额外内容。"
+                content: "你是专业翻译工具。规则：1)只输出翻译结果，禁止解释说明 2)禁止思考过程 3)直接翻译，保持原文格式"
             },
             {
                 role: "user",
@@ -92,7 +92,9 @@ function translate(query, completion) {
             }
         ],
         temperature: 0.1,
-        max_tokens: 2000
+        max_tokens: Math.min(Math.max(text.length * 3, 100), 2000), // 动态调整max_tokens
+        stream: false, // 翻译任务使用非流式响应更快
+        top_p: 0.9     // 提高响应速度的参数
     };
 
     // 调用智谱AI API
@@ -132,10 +134,11 @@ function buildTranslatePrompt(text, from, to, fromLang, toLang) {
     const fromName = languageNames[fromLang] || '原语言';
     const toName = languageNames[toLang] || '目标语言';
 
+    // 使用更直接简洁的提示词
     if (from === 'auto') {
-        return `请将以下文本翻译成${toName}：\n\n${text}`;
+        return `翻译为${toName}:\n${text}`;
     } else {
-        return `请将以下${fromName}文本翻译成${toName}：\n\n${text}`;
+        return `${fromName}→${toName}:\n${text}`;
     }
 }
 
@@ -181,7 +184,10 @@ function handleApiResponse(resp, originalText, from, to, completion) {
 
     // 解析翻译结果
     if (data.choices && data.choices.length > 0) {
-        const translatedText = data.choices[0].message.content.trim();
+        let translatedText = data.choices[0].message.content.trim();
+
+        // 清理可能的思考过程或解释文本
+        translatedText = cleanTranslationResult(translatedText);
 
         if (translatedText) {
             completion({
@@ -210,4 +216,40 @@ function handleApiResponse(resp, originalText, from, to, completion) {
             }
         });
     }
+}
+
+function cleanTranslationResult(text) {
+    // 移除常见的思考过程标识符和解释文本
+    const patterns = [
+        /^.*?翻译为?\s*[:：]\s*/i,           // "翻译为:" 或 "翻译:"
+        /^.*?结果为?\s*[:：]\s*/i,           // "结果为:" 或 "结果:"
+        /^.*?是\s*[:：]\s*/i,                // "是:"
+        /^.*?答案为?\s*[:：]\s*/i,           // "答案为:" 或 "答案:"
+        /^思考\s*[:：].*$/gm,                // 整行的思考过程
+        /^分析\s*[:：].*$/gm,                // 整行的分析过程
+        /^解释\s*[:：].*$/gm,                // 整行的解释过程
+        /^根据.*?翻译.*?$/gm,                // "根据...翻译..."
+        /^首先.*?然后.*?$/gm,                // "首先...然后..."
+        /^这.*?是.*?$/gm,                    // "这...是..."
+        /^\d+[\.\)]\s*/gm,                   // 数字编号 "1. " 或 "1)"
+        /^[-\*]\s*/gm                        // 列表标记 "- " 或 "* "
+    ];
+
+    let cleaned = text;
+
+    // 应用清理规则
+    for (const pattern of patterns) {
+        cleaned = cleaned.replace(pattern, '');
+    }
+
+    // 清理多余的换行和空格
+    cleaned = cleaned.replace(/^\s*\n+/gm, '').trim();
+
+    // 如果清理后为空，返回原文本的第一行（可能是直接翻译结果）
+    if (!cleaned) {
+        const lines = text.split('\n').filter(line => line.trim());
+        cleaned = lines.length > 0 ? lines[0].trim() : text.trim();
+    }
+
+    return cleaned;
 }

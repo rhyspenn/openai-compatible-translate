@@ -1,6 +1,6 @@
 {
     "name": "bob-zhipu-translate",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "智谱AI翻译插件 - 基于智谱AI大模型的Bob翻译插件",
     "main": "src/main.js",
     "scripts": {

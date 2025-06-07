@@ -1,6 +1,6 @@
 {
     "identifier": "zhipu-ai-translate",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "category": "translate",
     "name": "智谱AI翻译",
     "summary": "使用智谱AI大模型进行高质量文本翻译",
@@ -27,11 +27,11 @@
             "desc": "选择使用的智谱AI模型",
             "menuValues": [
                 {
-                    "title": "GLM-4 (推荐)",
+                    "title": "GLM-4",
                     "value": "glm-4"
                 },
                 {
-                    "title": "GLM-4-Flash (快速)",
+                    "title": "GLM-4-Flash (推荐 | 快速)",
                     "value": "glm-4-flash"
                 },
                 {
@@ -39,7 +39,7 @@
                     "value": "custom"
                 }
             ],
-            "defaultValue": "glm-4"
+            "defaultValue": "glm-4-flash"
         },
         {
             "identifier": "customModel",

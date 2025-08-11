@@ -1,6 +1,6 @@
 {
     "identifier": "com.rhyspenn.openai-compatible-translate",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "category": "translate",
     "name": "OpenAI Compatible 翻译",
     "summary": "支持任何 OpenAI 兼容 API 的高质量文本翻译插件",

@@ -4,8 +4,8 @@
 
 set -e
 
-echo "🚀 智谱AI翻译插件发布脚本"
-echo "================================"
+echo "🚀 OpenAI Compatible 翻译插件发布脚本"
+echo "======================================"
 
 # 检查是否有未提交的更改
 if [[ -n $(git status --porcelain) ]]; then

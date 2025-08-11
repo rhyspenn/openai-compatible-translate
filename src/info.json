@@ -1,20 +1,31 @@
 {
-    "identifier": "zhipu-ai-translate",
-    "version": "1.1.4",
+    "identifier": "openai-compatible-translate",
+    "version": "2.0.0",
     "category": "translate",
-    "name": "智谱AI翻译",
-    "summary": "使用智谱AI大模型进行高质量文本翻译",
+    "name": "OpenAI Compatible 翻译",
+    "summary": "支持任何 OpenAI 兼容 API 的高质量文本翻译插件",
     "icon": "",
     "author": "Rhys",
-    "homepage": "https://github.com/rhyspenn/zhipu-ai-translate",
+    "homepage": "https://github.com/rhyspenn/openai-compatible-translate",
     "appcast": "",
     "minBobVersion": "0.5.0",
     "options": [
         {
+            "identifier": "baseUrl",
+            "type": "text",
+            "title": "API Base URL",
+            "desc": "OpenAI API 基础地址，如：https://api.openai.com/v1 或其他兼容服务的地址",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "https://api.openai.com/v1"
+            }
+        },
+        {
             "identifier": "apiKey",
             "type": "text",
             "title": "API Key",
-            "desc": "请输入智谱AI的API密钥，可在 https://open.bigmodel.cn/ 获取",
+            "desc": "请输入您的 API 密钥",
             "textConfig": {
                 "type": "secure",
                 "height": 20
@@ -22,34 +33,35 @@
         },
         {
             "identifier": "model",
-            "type": "menu",
-            "title": "模型选择",
-            "desc": "选择使用的智谱AI模型",
-            "menuValues": [
-                {
-                    "title": "GLM-4",
-                    "value": "glm-4"
-                },
-                {
-                    "title": "GLM-4-Flash (推荐 | 快速)",
-                    "value": "glm-4-flash"
-                },
-                {
-                    "title": "自定义模型",
-                    "value": "custom"
-                }
-            ],
-            "defaultValue": "glm-4-flash"
-        },
-        {
-            "identifier": "customModel",
             "type": "text",
-            "title": "自定义模型名称",
-            "desc": "当选择自定义模型时，请输入具体的模型名称（如：glm-4-plus、chatglm3-6b等）",
+            "title": "模型名称",
+            "desc": "输入要使用的模型名称，如：gpt-4.1、gpt-4、gpt-3.5-turbo 等",
             "textConfig": {
                 "type": "normal",
                 "height": 20,
-                "placeholder": "请输入模型名称，如：glm-4-plus"
+                "placeholder": "gpt-4.1"
+            }
+        },
+        {
+            "identifier": "temperature",
+            "type": "text",
+            "title": "Temperature (可选)",
+            "desc": "控制输出随机性，范围 0-2，默认 0.1，值越小翻译越精确",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "0.1"
+            }
+        },
+        {
+            "identifier": "maxTokens",
+            "type": "text",
+            "title": "Max Tokens (可选)",
+            "desc": "最大返回 token 数，留空则自动计算",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "自动"
             }
         }
     ]

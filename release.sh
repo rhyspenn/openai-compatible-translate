@@ -51,4 +51,4 @@ git push origin "v$NEW_VERSION"
 
 echo "🎉 发布完成！"
 echo "📦 GitHub Actions 将自动构建并创建 Release"
-echo "🔗 查看进度: https://github.com/$(git config --get remote.origin.url | sed 's/.*github.com[:\/]\([^\/]*\/[^\/]*\)\.git/\1/')/actions"
+echo "🔗 查看进度: https://github.com/rhyspenn/openai-compatible-translate/actions"

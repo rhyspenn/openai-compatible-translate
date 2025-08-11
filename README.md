@@ -2,7 +2,8 @@
 
 [![GitHub release](https://img.shields.io/github/v/release/rhyspenn/openai-compatible-translate)](https://github.com/rhyspenn/openai-compatible-translate/releases)
 [![GitHub downloads](https://img.shields.io/github/downloads/rhyspenn/openai-compatible-translate/total)](https://github.com/rhyspenn/openai-compatible-translate/releases)
-[![License](https://img.shields.io/github/license/rhyspenn/openai-compatible-translate)](LICENSE)
+[![License](https://img.shields.io/github/license/rhyspenn/openai-compatible-translate)](https://github.com/rhyspenn/openai-compatible-translate/blob/main/LICENSE)
+[![GitHub Actions](https://github.com/rhyspenn/openai-compatible-translate/actions/workflows/release.yml/badge.svg)](https://github.com/rhyspenn/openai-compatible-translate/actions)
 
 这是一个支持任何 OpenAI 兼容 API 的 Bob 翻译插件，可以使用 OpenAI、Azure OpenAI、通义千问、智谱 AI 等任何兼容 OpenAI API 格式的服务进行高质量文本翻译。
 

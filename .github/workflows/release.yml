@@ -27,12 +27,32 @@ jobs:
       run: |
         # 创建插件包（从 src 目录）
         cd src
-        zip -r ../zhipu-ai-translate.bobplugin main.js info.json
+        zip -r ../openai-compatible-translate.bobplugin main.js info.json
         cd ..
         
         # 验证插件包
         echo "Plugin contents:"
-        unzip -l zhipu-ai-translate.bobplugin
+        unzip -l openai-compatible-translate.bobplugin
+    
+    - name: Calculate SHA256
+      id: sha256
+      run: |
+        SHA256=$(shasum -a 256 openai-compatible-translate.bobplugin | cut -d ' ' -f 1)
+        echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+        echo "SHA256: $SHA256"
+    
+    - name: Update appcast.json
+      run: |
+        # 更新 appcast.json 中的 SHA256
+        VERSION="${{ steps.get_version.outputs.version }}"
+        SHA256="${{ steps.sha256.outputs.sha256 }}"
+        
+        # 使用 jq 更新 appcast.json（如果版本已存在）
+        if command -v jq >/dev/null 2>&1; then
+          jq --arg version "$VERSION" --arg sha256 "$SHA256" \
+            '(.versions[] | select(.version == $version).sha256) = $sha256' \
+            appcast.json > appcast.tmp.json && mv appcast.tmp.json appcast.json
+        fi
     
     - name: Create Release
       env:
@@ -40,25 +60,37 @@ jobs:
       run: |
         # 创建发布说明
         cat > release_notes.md << 'EOF'
-        ## 智谱AI翻译插件 ${{ steps.get_version.outputs.version }}
+        ## OpenAI Compatible 翻译插件 ${{ steps.get_version.outputs.version }}
         
         ### 📦 安装方法
-        1. 下载 `zhipu-ai-translate.bobplugin` 文件
+        1. 下载 `openai-compatible-translate.bobplugin` 文件
         2. 双击安装或在 Bob 中手动导入
-        3. 在插件设置中配置智谱AI API Key
+        3. 在插件设置中配置 API 参数
         
         ### 🔧 配置说明
-        - 获取 API Key: https://open.bigmodel.cn/
-        - 支持 GLM-4 和 GLM-4-Flash 模型  
-        - 支持 15 种语言互译
-        - 支持自定义模型配置
+        - **Base URL**: 设置 API 端点（如 `https://api.openai.com/v1`）
+        - **API Key**: 输入您的 API 密钥
+        - **Model**: 选择模型（默认 `gpt-4.1`）
+        - 支持任何 OpenAI 兼容的 API 服务
+        - 支持 35+ 种语言互译
+        
+        ### 🌐 支持的服务
+        - OpenAI (GPT-4, GPT-3.5-Turbo 等)
+        - Azure OpenAI Service
+        - 通义千问、智谱 AI、百川智能等
+        - 本地大模型 (通过 LM Studio、Ollama)
+        - 其他任何 OpenAI 兼容服务
         
         ### 📝 更新内容
         详见 [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+        
+        ### 📊 文件信息
+        - **文件名**: openai-compatible-translate.bobplugin
+        - **SHA256**: ${{ steps.sha256.outputs.sha256 }}
         EOF
         
         # 使用 gh CLI 创建发布
         gh release create ${{ github.ref_name }} \
-          zhipu-ai-translate.bobplugin \
+          openai-compatible-translate.bobplugin \
           --title "Release ${{ github.ref_name }}" \
           --notes-file release_notes.md

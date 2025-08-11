@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Validate JSON files
+      run: |
+        echo "🔍 Validating JSON files..."
+        for file in src/info.json appcast.json package.json; do
+          if [ -f "$file" ]; then
+            echo "Checking $file..."
+            python3 -m json.tool "$file" > /dev/null || exit 1
+          fi
+        done
+        echo "✅ All JSON files are valid"
+    
+    - name: Check JavaScript syntax
+      run: |
+        echo "🔍 Checking JavaScript syntax..."
+        node -c src/main.js
+        echo "✅ JavaScript syntax is valid"
+    
+    - name: Build test
+      run: |
+        echo "🔨 Testing build process..."
+        ./build.sh
+        if [ ! -f "openai-compatible-translate.bobplugin" ]; then
+          echo "❌ Build failed: Plugin file not created"
+          exit 1
+        fi
+        echo "✅ Build test passed"
+    
+    - name: Check plugin size
+      run: |
+        FILE_SIZE=$(stat -c%s openai-compatible-translate.bobplugin 2>/dev/null || stat -f%z openai-compatible-translate.bobplugin)
+        MAX_SIZE=$((10 * 1024 * 1024))  # 10MB
+        if [ "$FILE_SIZE" -gt "$MAX_SIZE" ]; then
+          echo "⚠️ Warning: Plugin size ($FILE_SIZE bytes) exceeds 10MB"
+        else
+          echo "✅ Plugin size: $FILE_SIZE bytes"
+        fi
+    
+    - name: Verify plugin contents
+      run: |
+        echo "📦 Verifying plugin contents..."
+        unzip -t openai-compatible-translate.bobplugin
+        
+        # Check if required files are in the plugin
+        unzip -l openai-compatible-translate.bobplugin | grep -q "main.js" || exit 1
+        unzip -l openai-compatible-translate.bobplugin | grep -q "info.json" || exit 1
+        echo "✅ Plugin structure is valid"

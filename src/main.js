@@ -82,7 +82,7 @@ function translate(query, completion) {
     const toLang = langMap.get(to) || to;
 
     // 构建翻译提示词
-    let systemPrompt = "You are a professional translator. Rules: 1) Output only the translation result without any explanation or thinking process 2) Translate directly while maintaining the original format 3) For auto-detect, intelligently choose the most appropriate target language";
+    let systemPrompt = "You are a professional translator. Rules: 1) Output only the translation result without any explanation or thinking process 2) Translate directly while maintaining the original format 3) For auto-detect, prioritize English-Chinese Simplified translation pairs 4) Preserve original formatting, line breaks, and spacing";
     
     let userPrompt = buildTranslatePrompt(text, fromLang, toLang);
 
@@ -137,7 +137,12 @@ function buildTranslatePrompt(text, fromLang, toLang) {
     // 处理特殊情况：自动检测
     if (toLang === 'auto') {
         if (fromLang === 'auto') {
-            return `Intelligently translate the following text to the most appropriate language:\n${text}`;
+            // 优化：优先处理中英互译
+            return `Intelligently translate the following text. Priority rules:
+1. If the text is in English, translate to Chinese Simplified
+2. If the text is in Chinese (Simplified or Traditional), translate to English
+3. For other languages, translate to the most appropriate target language
+Text to translate:\n${text}`;
         } else {
             return `Translate from ${fromLang} to the most appropriate language:\n${text}`;
         }
